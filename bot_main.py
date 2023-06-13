@@ -1,6 +1,6 @@
 import telebot
 from secrets import TOKEN
-
+from kinopoisk_api import movie_search
 # Создание объекта бота
 bot = telebot.TeleBot(TOKEN)
 
@@ -17,9 +17,16 @@ def send_welcome(message):
 @bot.message_handler(func=lambda message: True)
 def generate_response(message):
     # Отправка ответа пользователю
-    bot.reply_to(message, response)
+    response = []
+    # answer = "[Описание изображения](https://upload.wikimedia.org/wikipedia/commons/8/83/Iris_germanica_160505.jpg)"
+    answer = movie_search(message.text)
+    bot.send_message(message.chat.id, answer, parse_mode='Markdown')
+    # bot.reply_to(message, response)
 
 
-def main():
+def bot_main():
     # Запуск бота
     bot.polling()
+    print('main')
+
+bot_main()
